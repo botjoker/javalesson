@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<devices>
+	<device sku="1001" type="Monitor">		
+		<title>FIRST</title>		
+		<date>22.02.2014</date>
+		<color>true</color>		
+		<size>22</size>
+		<kind>TUBE</kind>
+		<quantity>55</quantity>
+	</device>
+	<device sku="1002" type="Printer">
+		<title>Second</title>		
+		<date>22.02.2015</date>
+		<network>true</network>
+		<color>true</color>
+		<quantity>88</quantity>
+	</device>
+	<device sku="1003" type="Scanner">
+		<title>Third</title>	
+		<date>22.02.2016</date>	
+		<color>true</color>				
+		<network>ETHERNET,WIFI</network>
+		<quantity>99</quantity>
+	</device>
+</devices>
