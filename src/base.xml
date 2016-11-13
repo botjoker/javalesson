@@ -1,5 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><devices>
-	
-	
-	
-<device sku="1001" type="Monitor"><title>FIRST</title><date>22.02.2014</date><quantity>55</quantity><color>true</color><size>22</size><kind>TUBE</kind></device><device sku="1002" type="Printer"><title>Second</title><date>22.02.2015</date><quantity>88</quantity><network>true</network><color>true</color></device><device sku="5188" type="Monitor"><title>"ViewSonic VA2223WM"</title><date>01.11.2016</date><quantity>1</quantity><color>false</color><size>0</size><kind>LCD</kind></device><device sku="1923" type="Scanner"><title>"ViewSonic VA2223WM"</title><date>01.11.2016</date><quantity>1</quantity><color>false</color><network>ETHERNET,</network></device><device sku="3288" type="Printer"><title>"ViewSonic VA2223WM"</title><date>01.11.2016</date><quantity>1</quantity><network>false</network><color>false</color></device></devices>
+<?xml version="1.0"?>
+<devices>
+    <device sku="1001" type="Monitor">
+        <title>FIRST</title>
+        <date>22.02.2014</date>
+        <color>true</color>
+        <size>22</size>
+        <kind>TUBE</kind>
+        <quantity>55</quantity>
+    </device>
+    <device sku="1002" type="Printer">
+        <title>Second</title>
+        <date>22.02.2015</date>
+        <network>true</network>
+        <color>true</color>
+        <quantity>88</quantity>
+    </device>
+    <device sku="1003" type="Scanner">
+        <title>Third</title>
+        <date>22.02.2016</date>
+        <color>true</color>
+        <network>ETHERNET,WIFI</network>
+        <quantity>99</quantity>
+    </device>
+</devices>
