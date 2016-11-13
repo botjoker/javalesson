@@ -8,6 +8,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
 
+import java.util.*;
+import javax.xml.transform.*;
+import javax.xml.transform.stream.*;
+import javax.xml.transform.dom.*;
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
 
 import java.util.ArrayList;
 
@@ -88,13 +94,99 @@ public class Database {
 
 	public void deleteItem (String param) {
 		for(Device d : allDevices){
-	        if(d.getSkuString() != null && d.getSkuString().contains(param))
-			this.allDevices.remove(this.allDevices.indexOf(d));
-			break;
+	        if(d.getSkuString() != null && d.getSkuString().contains(param)) {	        	
+				this.allDevices.remove(this.allDevices.indexOf(d));
+				break;
+			}			
 	    }	  	
 	}
 	public void deleteAll() {		
 		this.allDevices.clear();
+	}
+
+	public void addItem(Device item) {
+		this.allDevices.add(item);
+	}
+
+	public void rewriteBase () {
+		try {	
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+	        Document document = documentBuilder.parse("src/base.xml");
+	        Element root = document.getDocumentElement();
+	        NodeList itemsList = document.getElementsByTagName("device");
+	        int itemsCount = itemsList.getLength();
+	        
+	        for (int i = 0; i<itemsCount; i++) {
+	        	Element element = (Element) document.getElementsByTagName("device").item(0);
+	        	element.getParentNode().removeChild(element);	
+	        }
+	        	        
+	        for (Device dev : this.allDevices) {
+	            String typ = dev.getTyp();
+
+	            Element newDevice = document.createElement("device");
+
+	            newDevice.setAttribute("sku",dev.getSkuString());
+	            newDevice.setAttribute("type",typ);
+
+	            Element title = document.createElement("title");
+	            title.appendChild(document.createTextNode(dev.getTitle()));
+	            newDevice.appendChild(title);
+
+				Element date = document.createElement("date");
+	            date.appendChild(document.createTextNode(dev.getDate()));
+	            newDevice.appendChild(date);
+
+	            Element quantity = document.createElement("quantity");
+	            quantity.appendChild(document.createTextNode(dev.getQuantityString()));
+	            newDevice.appendChild(quantity);
+	            
+	            switch (dev.typ) {
+			        	case "Printer":			        		
+			        		Element printerNetwork = document.createElement("network");
+				            printerNetwork.appendChild(document.createTextNode(((Printer)dev).getNetwork()));
+				            newDevice.appendChild(printerNetwork);
+
+				            Element printerColor = document.createElement("color");
+				            printerColor.appendChild(document.createTextNode(((Printer)dev).getColor()));
+				            newDevice.appendChild(printerColor);
+
+			        	break;
+			        	case "Monitor":	
+			     			Element monitorColor = document.createElement("color");
+				            monitorColor.appendChild(document.createTextNode(((Monitor)dev).getColor()));
+				            newDevice.appendChild(monitorColor);
+
+				            Element monitorSize = document.createElement("size");
+				            monitorSize.appendChild(document.createTextNode(((Monitor)dev).getSize()));
+				            newDevice.appendChild(monitorSize);
+
+				            Element monitorKind = document.createElement("kind");
+				            monitorKind.appendChild(document.createTextNode(((Monitor)dev).getKind()));
+				            newDevice.appendChild(monitorKind);
+			        	break;
+			        	case "Scanner":	
+			        		Element scannerColor = document.createElement("color");
+				            scannerColor.appendChild(document.createTextNode(((Scan)dev).getColor()));
+				            newDevice.appendChild(scannerColor);
+
+				            Element scannerNetwork = document.createElement("network");
+				            scannerNetwork.appendChild(document.createTextNode(((Scan)dev).getNetwork()));
+				            newDevice.appendChild(scannerNetwork);
+			        	break;		      
+				}
+	            root.appendChild(newDevice);
+	        }	        
+	        DOMSource source = new DOMSource(document);
+
+	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	        Transformer transformer = transformerFactory.newTransformer();
+	        StreamResult result = new StreamResult("src/base.xml");
+	        transformer.transform(source, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 }

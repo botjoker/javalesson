@@ -17,7 +17,8 @@ public class Catalog {
         System.out.println("-----");
         System.out.println("- Type 'exit' to exit");
         System.out.println("- Type 'list' to show all catalog");
-        System.out.println("- Type 'delete -- sku [number]' to delete item from catalog");
+        System.out.println("- Type 'delete --sku [number]' to delete item from catalog");
+        System.out.println("- Type 'add [parameters]' to add item");
        
 
         Database db = new Database(); // Read from database
@@ -30,10 +31,11 @@ public class Catalog {
 		    commandLine = commandLine.trim();		    
             String command = commandLine.split(" ")[0];
 		    if(command.equals("exit")) {
+		    	db.rewriteBase();
 		        break;
 		    }
 		    if(command.equals("delete")) {
-		    	if(commandLine.contains("--sku ")) {
+		    	if(commandLine.contains("--sku ")) {		    		
 		    		db.deleteItem(commandLine.split("--sku ")[1].trim());
 	    		} else {
 	    			System.out.println("Не указан инвентарный номер, - вы действительно хотите очистить всю БД? (y или yes): ");
@@ -43,10 +45,25 @@ public class Catalog {
 						System.out.println("База данных очищена");
 					}
 
-	    		}
-	    		// System.out.println(commandLine);
-	    		// System.out.println(commandLine.contains("--sku"));
-		    	// db.deleteItem("1001");		    	
+	    		}	    		
+		    }	
+		    if(command.equals("add")) {		    	
+		    	String[] parametersList = commandLine.split("--");		    	
+		    	if(parametersList[1].trim().equals("type MONITOR")) {
+		    		Monitor monitor = new Monitor();
+		    		monitor.addItem(parametersList);
+		    		db.addItem(monitor);
+		    	}
+		    	if(parametersList[1].trim().equals("type SCANNER")) {
+		    		Scan scan = new Scan();
+		    		scan.addItem(parametersList);
+		    		db.addItem(scan);
+		    	}
+		    	if(parametersList[1].trim().equals("type PRINTER")) {
+		    		Printer printer = new Printer();
+		    		printer.addItem(parametersList);
+		    		db.addItem(printer);
+		    	}		        
 		    }		    
 		    if(command.equals("list")) {
 		        for(Device dev : db.getBase()){

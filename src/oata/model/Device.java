@@ -10,8 +10,16 @@ public class Device {
 	String title;
 	Date date;
 
+	public String getTitle() {
+		return this.title;
+	}
+
 	public String getSkuString() {
 		return Integer.toString(this.sku);
+	}
+
+	public String getQuantityString() {
+		return Integer.toString(this.quantity);
 	}
 
 	public void setSku(String param) {
