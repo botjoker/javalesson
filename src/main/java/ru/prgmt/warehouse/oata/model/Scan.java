@@ -1,26 +1,34 @@
-package oata;
+package ru.prgmt.warehouse;
 
-import java.lang.*;
 import java.util.*;
 
-public class Printer extends Device {	
-	public boolean network;
-	public boolean color; 
 
-	public void setNetwork(String param) {
-		this.network = Boolean.parseBoolean(param);
-	}
+public class Scan extends Device {	
+
+	enum Network { ETHERNET, WIFI };
+
+	private ArrayList<Network> network = new ArrayList<Network>();
+	private boolean color; 
 
 	public void setColor(String param) {
 		this.color = Boolean.parseBoolean(param);
 	}
-
+	public void setNetwork(String param) {		
+		ArrayList<String> tempList = new ArrayList<String>(Arrays.asList(param.split(",")));
+		for(String item : tempList) {
+			network.add(Network.valueOf(item));
+		}
+	}
+	
 	public String isNetwork() {		
-        return this.network ? "Сетевой" : "Локальный";
+        return "yes";
 	}
 
 	public String getNetwork() {		
-        return Boolean.toString(this.network);
+		String result = new String();
+		for(Network item : this.network)
+			result = result + item.toString() + ",";
+        return result;
 	}
 
 	public String getColor() {		
@@ -28,7 +36,7 @@ public class Printer extends Device {
 	}
 
 	public String print() {
-		String printString = this.getSkuString() + " - " + this.getDate() + " " + this.quantity + " штук Принтер " + this.title + " - " + this.isNetwork() + " - " + this.isColor(this.color);
+		String printString = this.getSkuString() + " - " + this.getDate() + " " + this.getQuantityString() + " штук Сканнер " + this.getTitle() + " - " + this.getNetwork() + " - " + this.isColor(this.color);
 		return printString;		
 	}
 
@@ -36,7 +44,7 @@ public class Printer extends Device {
 		for(String item : parametersList) {
 			String currentParemeter = item.split(" ")[0].trim();
 			String tempParameter = "";			
-    		this.setTyp("Printer");
+    		this.setTyp("Scanner");
     		Random rand = new Random();
     		this.setSku(Integer.toString(rand.nextInt(9999)));
 

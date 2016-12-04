@@ -1,4 +1,4 @@
-package oata;
+package ru.prgmt.warehouse;
 
 import java.util.Random;
 
@@ -6,9 +6,9 @@ public class Monitor extends Device {
 
 	enum Kind { TUBE, LCD, PROJECTOR }
 
-	public boolean color;
-	public int size;
-	public Kind kind;		
+	private boolean color;
+	private int size;
+	private Kind kind;		
 
 	public void setColor(String param) {
 		this.color = Boolean.parseBoolean(param);
@@ -35,7 +35,7 @@ public class Monitor extends Device {
 	}
 
 	public String print() {
-		String printString = this.getSkuString() + " - " + this.getDate() + " " + this.quantity + " штук Монитор " + this.title + " - " + this.isColor(this.color) + " - " + this.getKind() + " - " + this.getSize() + "'";
+		String printString = this.getSkuString() + " - " + this.getDate() + " " + this.getQuantityString() + " штук Монитор " + this.getTitle() + " - " + this.isColor(this.color) + " - " + this.getKind() + " - " + this.getSize() + "'";
 		return printString;		
 	}
 
